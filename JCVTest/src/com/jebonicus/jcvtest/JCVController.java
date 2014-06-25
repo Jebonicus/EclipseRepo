@@ -65,7 +65,9 @@ public class JCVController {
 	public void stop() {
 		try {
 			started = false;
-			frameGrabber.stop();
+			synchronized (this) {
+				frameGrabber.stop();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -18,13 +18,19 @@ public class JCVControlPanel extends JPanel {
 		final JButton startButton = new JButton("Start");
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if("Start".equals(startButton.getText())) {
-					controller.start();
-					startButton.setText("Stop");
-				} else {
-					controller.stop();
-					startButton.setText("Start");
-				}
+				startButton.setEnabled(false);
+				new Thread() {
+					public void run() {
+						if("Start".equals(startButton.getText())) {
+							controller.start();
+							startButton.setText("Stop");
+						} else {
+							controller.stop();
+							startButton.setText("Start");
+						}
+						startButton.setEnabled(true);
+					};
+				}.start();
 			}
 		});
 		add(startButton , new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
